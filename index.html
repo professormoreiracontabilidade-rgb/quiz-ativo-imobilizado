@@ -13,7 +13,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(
 .app{width:100%;max-width:430px;min-height:100vh;padding:14px;display:flex;flex-direction:column;gap:12px}
 header{background:#fff;border-radius:18px;padding:14px;text-align:center;box-shadow:0 8px 22px rgba(0,0,0,.2)}
 header h1{font-size:18px;margin:0;color:var(--azul);font-weight:900;text-transform:uppercase;line-height:1.25}
-header p{margin:5px 0 0;font-size:13px;font-weight:800}.screen{display:none;background:#fff;border-radius:20px;padding:16px;box-shadow:0 8px 22px rgba(0,0,0,.22);flex:1}.screen.active{display:block}.start{display:flex;flex-direction:column;gap:12px;justify-content:center}.start h2{text-align:center;color:var(--azul);font-size:25px;margin:0 0 10px}.campo label{font-weight:900;font-size:15px}.campo input{width:100%;padding:15px;border:2px solid #cbd5e1;border-radius:14px;font-size:18px;margin-top:6px}.btn{border:0;border-radius:14px;padding:14px 12px;font-size:16px;font-weight:900;background:var(--azul);color:white;box-shadow:0 5px 14px rgba(0,0,0,.18)}.btn:active{transform:scale(.98)}.btn.secondary{background:#fff;color:var(--azul);border:2px solid var(--azul)}.progress{background:#ffffffd9;border-radius:14px;padding:9px;text-align:center;color:var(--azul);font-weight:900}.questao-titulo{background:var(--azul);color:#fff;border-radius:14px;padding:10px;text-align:center;font-weight:900;margin-bottom:12px}.banca{font-size:14px;font-weight:900;color:var(--azul);margin-bottom:10px}.enunciado{font-size:16.5px;line-height:1.45;font-weight:700;white-space:pre-line}.alternativas{display:flex;flex-direction:column;gap:9px;margin-top:14px}.alt{width:100%;border:2px solid #d1d5db;border-radius:14px;background:#f8fafc;padding:12px;text-align:left;font-size:16px;font-weight:800}.alt.correta{background:#dcfce7;border-color:var(--verde)}.alt.errada{background:#fee2e2;border-color:var(--vermelho)}.comentario{background:var(--rosa);border-radius:16px;padding:14px;font-size:17px;line-height:1.45;font-weight:800;white-space:pre-line}.comentario h2{margin-top:0;color:var(--azul)}.nav{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.resultado{text-align:center}.score{font-size:38px;font-weight:900;color:var(--azul);margin:10px}.lista{font-size:16px;text-align:left;background:var(--claro);border-radius:14px;padding:12px;font-weight:800;line-height:1.5}.rodape{text-align:center;color:white;font-size:13px;font-weight:800;padding-bottom:8px}.small{font-size:13px;color:#475569;font-weight:800;text-align:center}
+header p{margin:5px 0 0;font-size:13px;font-weight:800}.screen{display:none;background:#fff;border-radius:20px;padding:16px;box-shadow:0 8px 22px rgba(0,0,0,.22);flex:1}.screen.active{display:block}.screen.start.active{display:flex}.start{flex-direction:column;gap:12px;justify-content:center}.start h2{text-align:center;color:var(--azul);font-size:25px;margin:0 0 10px}.campo label{font-weight:900;font-size:15px}.campo input{width:100%;padding:15px;border:2px solid #cbd5e1;border-radius:14px;font-size:18px;margin-top:6px}.btn{border:0;border-radius:14px;padding:14px 12px;font-size:16px;font-weight:900;background:var(--azul);color:white;box-shadow:0 5px 14px rgba(0,0,0,.18)}.btn:active{transform:scale(.98)}.btn.secondary{background:#fff;color:var(--azul);border:2px solid var(--azul)}.progress{background:#ffffffd9;border-radius:14px;padding:9px;text-align:center;color:var(--azul);font-weight:900}.questao-titulo{background:var(--azul);color:#fff;border-radius:14px;padding:10px;text-align:center;font-weight:900;margin-bottom:12px}.banca{font-size:14px;font-weight:900;color:var(--azul);margin-bottom:10px}.enunciado{font-size:16.5px;line-height:1.45;font-weight:700;white-space:pre-line}.alternativas{display:flex;flex-direction:column;gap:9px;margin-top:14px}.alt{width:100%;border:2px solid #d1d5db;border-radius:14px;background:#f8fafc;padding:12px;text-align:left;font-size:16px;font-weight:800}.alt.correta{background:#dcfce7;border-color:var(--verde)}.alt.errada{background:#fee2e2;border-color:var(--vermelho)}.comentario{background:var(--rosa);border-radius:16px;padding:14px;font-size:17px;line-height:1.45;font-weight:800;white-space:pre-line}.comentario h2{margin-top:0;color:var(--azul)}.nav{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.resultado{text-align:center}.score{font-size:38px;font-weight:900;color:var(--azul);margin:10px}.lista{font-size:16px;text-align:left;background:var(--claro);border-radius:14px;padding:12px;font-weight:800;line-height:1.5}.rodape{text-align:center;color:white;font-size:13px;font-weight:800;padding-bottom:8px}.small{font-size:13px;color:#475569;font-weight:800;text-align:center}
 </style>
 </head>
 <body>
@@ -25,7 +25,7 @@ header p{margin:5px 0 0;font-size:13px;font-weight:800}.screen{display:none;back
   <h2>Ativo Imobilizado</h2>
   <div class="campo"><label>Nome</label><input id="nome" type="text" autocomplete="name"></div>
   <div class="campo"><label>WhatsApp</label><input id="whats" type="tel" autocomplete="tel"></div>
-  <button class="btn" onclick="iniciar()">Começar Quiz</button>
+  <button class="btn" onclick="solicitarWhatsapp()">Enviar solicitação pelo WhatsApp</button>
   <div class="small">Curso de Contabilidade Professor Moreira</div>
 </section>
 
@@ -217,8 +217,21 @@ Ativo Imobilizado = R$ 35.000.
 Resposta: A) R$35.000.`}
 ];
 let atual=0,respostas=Array(quiz.length).fill(null),nomeAluno='',whatsAluno='';
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function iniciar(){nomeAluno=document.getElementById('nome').value.trim();whatsAluno=document.getElementById('whats').value.trim();if(!nomeAluno||!whatsAluno){return}atual=0;renderQuestao()}
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function solicitarWhatsapp(){
+  nomeAluno=document.getElementById('nome').value.trim();
+  whatsAluno=document.getElementById('whats').value.trim();
+  if(!nomeAluno||!whatsAluno){return}
+  const msg=`Olá, Professor Moreira! Sou ${nomeAluno}. Meu WhatsApp é ${whatsAluno}. Solicito liberação para acessar o Quiz de Ativo Imobilizado.`;
+  const url='https://wa.me/5561985323574?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
+  atual=0;
+  respostas=Array(quiz.length).fill(null);
+  setTimeout(renderQuestao,500);
+}
 function renderQuestao(){const q=quiz[atual];show('quizScreen');document.getElementById('progress').innerText=`Questão ${atual+1} de ${quiz.length}`;document.getElementById('qTitulo').innerText=`Questão ${atual+1}`;document.getElementById('banca').innerText=q.b;document.getElementById('enunciado').innerText=q.q;const alts=document.getElementById('alternativas');alts.innerHTML='';q.alts.forEach((a,i)=>{const b=document.createElement('button');b.className='alt';b.innerText=a;b.onclick=()=>responder(i);alts.appendChild(b)})}
 function responder(i){respostas[atual]=i;document.querySelectorAll('.alt').forEach((el,idx)=>{if(idx===quiz[atual].c)el.classList.add('correta');if(idx===i&&i!==quiz[atual].c)el.classList.add('errada');el.disabled=true});setTimeout(renderComentario,450)}
 function renderComentario(){const q=quiz[atual];show('comentScreen');document.getElementById('progress').innerText=`Resposta comentada ${atual+1} de ${quiz.length}`;document.getElementById('comentario').innerHTML=`<h2>Resposta Comentada</h2>${q.com}`;document.getElementById('btnProx').innerText= atual===quiz.length-1 ? 'Ver escore' : 'Próxima'}
