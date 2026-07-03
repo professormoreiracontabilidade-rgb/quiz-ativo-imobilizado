@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Mobile - Ativo Imobilizado | Professor Moreira</title>
+<style>
+:root{
+  --azul:#073b7a;--azul2:#0b63b6;--claro:#e8f5ff;--rosa:#ffe1ee;--verde:#16a34a;--vermelho:#dc2626;--amarelo:#fff7cc;--texto:#111827;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,var(--azul),var(--azul2));color:var(--texto);min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;min-height:100vh;padding:14px;display:flex;flex-direction:column;gap:12px}
+header{background:#fff;border-radius:18px;padding:14px;text-align:center;box-shadow:0 8px 22px rgba(0,0,0,.2)}
+header h1{font-size:18px;margin:0;color:var(--azul);font-weight:900;text-transform:uppercase;line-height:1.25}
+header p{margin:5px 0 0;font-size:13px;font-weight:800}.screen{display:none;background:#fff;border-radius:20px;padding:16px;box-shadow:0 8px 22px rgba(0,0,0,.22);flex:1}.screen.active{display:block}.start{display:flex;flex-direction:column;gap:12px;justify-content:center}.start h2{text-align:center;color:var(--azul);font-size:25px;margin:0 0 10px}.campo label{font-weight:900;font-size:15px}.campo input{width:100%;padding:15px;border:2px solid #cbd5e1;border-radius:14px;font-size:18px;margin-top:6px}.btn{border:0;border-radius:14px;padding:14px 12px;font-size:16px;font-weight:900;background:var(--azul);color:white;box-shadow:0 5px 14px rgba(0,0,0,.18)}.btn:active{transform:scale(.98)}.btn.secondary{background:#fff;color:var(--azul);border:2px solid var(--azul)}.progress{background:#ffffffd9;border-radius:14px;padding:9px;text-align:center;color:var(--azul);font-weight:900}.questao-titulo{background:var(--azul);color:#fff;border-radius:14px;padding:10px;text-align:center;font-weight:900;margin-bottom:12px}.banca{font-size:14px;font-weight:900;color:var(--azul);margin-bottom:10px}.enunciado{font-size:16.5px;line-height:1.45;font-weight:700;white-space:pre-line}.alternativas{display:flex;flex-direction:column;gap:9px;margin-top:14px}.alt{width:100%;border:2px solid #d1d5db;border-radius:14px;background:#f8fafc;padding:12px;text-align:left;font-size:16px;font-weight:800}.alt.correta{background:#dcfce7;border-color:var(--verde)}.alt.errada{background:#fee2e2;border-color:var(--vermelho)}.comentario{background:var(--rosa);border-radius:16px;padding:14px;font-size:17px;line-height:1.45;font-weight:800;white-space:pre-line}.comentario h2{margin-top:0;color:var(--azul)}.nav{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.resultado{text-align:center}.score{font-size:38px;font-weight:900;color:var(--azul);margin:10px}.lista{font-size:16px;text-align:left;background:var(--claro);border-radius:14px;padding:12px;font-weight:800;line-height:1.5}.rodape{text-align:center;color:white;font-size:13px;font-weight:800;padding-bottom:8px}.small{font-size:13px;color:#475569;font-weight:800;text-align:center}
+</style>
+</head>
+<body>
+<div class="app">
+<header><h1>Curso de Contabilidade Professor Moreira</h1><p>Quiz Mobile - Ativo Imobilizado</p><p>WhatsApp: 61 98532-3574</p></header>
+<div class="progress" id="progress">Tela inicial</div>
+
+<section class="screen start active" id="startScreen">
+  <h2>Ativo Imobilizado</h2>
+  <div class="campo"><label>Nome</label><input id="nome" type="text" autocomplete="name"></div>
+  <div class="campo"><label>WhatsApp</label><input id="whats" type="tel" autocomplete="tel"></div>
+  <button class="btn" onclick="iniciar()">Começar Quiz</button>
+  <div class="small">Curso de Contabilidade Professor Moreira</div>
+</section>
+
+<section class="screen" id="quizScreen">
+  <div class="questao-titulo" id="qTitulo"></div>
+  <div class="banca" id="banca"></div>
+  <div class="enunciado" id="enunciado"></div>
+  <div class="alternativas" id="alternativas"></div>
+</section>
+
+<section class="screen" id="comentScreen">
+  <div class="comentario" id="comentario"></div>
+  <div class="nav"><button class="btn secondary" onclick="voltarQuestao()">Voltar</button><button class="btn" onclick="proxima()" id="btnProx">Próxima</button></div>
+</section>
+
+<section class="screen resultado" id="resultScreen">
+  <h2>Resultado Final</h2>
+  <div class="score" id="score"></div>
+  <div class="lista" id="resumo"></div>
+  <button class="btn" onclick="reiniciar()" style="margin-top:14px;width:100%">Reiniciar</button>
+</section>
+<div class="rodape">Curso de Contabilidade Professor Moreira - WhatsApp 61 98532-3574</div>
+</div>
+<script>
+const quiz=[
+{b:'FGV - CFC (Exame de Suficiência – 2024.1)/2024',q:`01. Uma sociedade empresária oferece serviços de entrega de documentos. Para realizar as entregas,
+possui cinco motos, sendo que cada uma apresentava, em 31/12/2023, valor contábil de R$30.000.
+Além disso, a sociedade empresária possui duas motos que são utilizadas exclusivamente para a
+locomoção de seus diretores. Cada uma dessas motos apresentava, em 31/12/2023, valor contábil de
+R$50.000.
+Assinale a opção que indica a apresentação das motos no balanço patrimonial da sociedade
+empresária em 31/12/2023.`,alts:['(A) Investimentos: R$250.000.','(B) Ativo Imobilizado: R$250.000.','(C) Investimentos: R$100.000 e Ativo Imobilizado: R$150.000.','(D) Investimentos: R$150.000 e Ativo Imobilizado: R$100.000.'],c:1,com:`Gabarito: B
+
+As 5 motos usadas nas entregas são Ativo Imobilizado.
+5 × R$ 30.000 = R$ 150.000
+
+As 2 motos usadas pelos diretores também são Ativo Imobilizado, pois têm finalidade administrativa.
+2 × R$ 50.000 = R$ 100.000
+
+Total: R$ 150.000 + R$ 100.000 = R$ 250.000.
+
+Resposta: B) Ativo Imobilizado: R$250.000.`},
+{b:'FGV - CFC (Exame de Suficiência – 2024.1 - RS)/2024',q:`02. Para ser reconhecido, um ativo imobilizado precisa atender à definição de ativo imobilizado, ter
+relevância e representação fidedigna, apresentar um potencial de entrada de recursos econômicos com
+o uso ou a venda do ativo, e que possa ser mensurado com base em estimativas confiáveis.
+São considerados custos diretamente atribuíveis ao Ativo Imobilizado para sua mensuração no
+reconhecimento inicial pelo custo histórico, os listados a seguir, à exceção de um. Assinale-o.`,alts:['(A) Custos de abertura de nova instalação.','(B) Honorários profissionais.','(C) Custos de frete e manuseio.','(D) Custos de preparação do local'],c:0,com:`Gabarito: A
+
+Honorários profissionais, frete, manuseio e preparação do local são custos diretamente atribuíveis.
+
+Já os custos de abertura de nova instalação não entram no custo do imobilizado.
+
+Resposta: A) Custos de abertura de nova instalação.`},
+{b:'FGV - CFC (Exame de Suficiência – 2024.2)/2024',q:`03. De acordo com a NBC TG 27 (R4) – ATIVO IMOBILIZADO, o custo de um item do ativo
+imobilizado compreende, entre outros, quaisquer custos diretamente atribuíveis para colocar o ativo
+no local e as condições necessárias para ele ser capaz de funcionar da forma pretendida pela
+administração.
+Entre os custos diretamente atribuíveis estão os custos`,alts:['(A) de abertura de nova instalação.','(B) incorridos na introdução de novo produto ou serviço.','(C) com testes para verificar se o ativo está funcionando corretamente.','(D) da transferência das atividades para novo local ou para nova categoria de clientes.'],c:2,com:`Gabarito: C
+
+Custos com testes para verificar se o ativo está funcionando corretamente entram no custo do imobilizado.
+
+As demais opções não entram:
+Abertura de nova instalação → despesa.
+Introdução de novo produto → despesa.
+Transferência para novo local → despesa.
+
+Resposta: C) com testes para verificar se o ativo está funcionando corretamente.`},
+{b:'FGV - ATM (Pref SJC)/Pref SJC/Gestão Tributária/2024',q:`04) Em uma sociedade empresária, são classificados(as) como “Ativo Imobilizado em Andamento”`,alts:['a) os melhoramentos e as obras integradas aos terrenos utilizados.','b) os bens incorpóreos destinados à manutenção das atividades.','c) as peças destinadas à substituição em máquinas e equipamentos.','d) os bens utilizados para deslocamento de pessoal ou transporte de mercadorias.','e) os bens em uso durante a fase pré-operacional, relativos ao desenvolvimento de um projeto.'],c:4,com:`Gabarito: E
+
+Ativo Imobilizado em Andamento representa bens ainda em fase de preparação, construção ou desenvolvimento, antes do uso normal.
+
+Resposta: E) os bens em uso durante a fase pré-operacional, relativos ao desenvolvimento de um projeto.`},
+{b:'FGV - Cons Leg (CM SP)/CM SP/Contador/2024',q:`05) Um restaurante adquiriu, por R$50.000, grades que foram instaladas ao redor de seu terreno por
+razão de segurança. A aquisição das grades não aumentou diretamente os benefícios econômicos
+futuros específicos do terreno, no entanto, foi considerada necessária para que o fluxo do
+atendimento aos clientes continuasse.
+Assinale a opção que indica a classificação contábil das grades nas demonstrações contábeis do
+restaurante, de acordo com as diretrizes dos pronunciamentos contábeis.`,alts:['a) Ativo Imobilizado, no Balanço Patrimonial.','b) Investimentos, no Balanço Patrimonial.','c) Ativo Realizável a Longo Prazo, no Balanço Patrimonial.','d) Despesa Operacional, na Demonstração do Resultado do Exercício.','e) Outras Despesas Operacionais, na Demonstração do Resultado do Exercício.'],c:0,com:`Gabarito: A
+
+As grades foram instaladas por segurança e eram necessárias para manter o funcionamento do restaurante.
+
+Mesmo sem aumentar diretamente os benefícios econômicos do terreno, permitem a continuidade da atividade.
+
+Resposta: A) Ativo Imobilizado, no Balanço Patrimonial.`},
+{b:'FGV - AL (CAM DEP)/CAM DEP/Consultor Legislativo/Área III/2024',q:`06) Em 01/01/2024, uma sociedade empresária adquiriu uma máquina-ferramenta controlada por
+computador por R$50.000.
+A máquina só funciona quando controlada por um software específico que foi adquirido
+conjuntamente por R$20.000. O frete para a entrega da máquina ferramenta foi de R$2.000.
+Assinale a opção que indica o reconhecimento contábil dos gastos no ativo da sociedade empresária.`,alts:['a) intangível: R$70.000.','b) intangível: R$72.000.','c) imobilizado: R$72.000.','d) imobilizado: R$50.000 e intangível: R$20.000.','e) imobilizado: R$52.000 e intangível: R$20.000.'],c:2,com:`Gabarito: C
+
+A máquina custa R$ 50.000.
+
+O software é indispensável para a máquina funcionar, então compõe o imobilizado.
+
+Frete também entra no custo.
+
+R$ 50.000 + R$ 20.000 + R$ 2.000 = R$ 72.000.
+
+Resposta: C) imobilizado: R$72.000.`},
+{b:'FGV - AL (CAM DEP)/CAM DEP/Consultor Legislativo/Área III/2024',q:`07) Em relação às normas de contabilidade, brasileiras e internacionais, analise as afirmações a
+seguir:
+I. Elaboração e apresentação da Demonstração do Valor Adicionado pelas companhias abertas
+como parte integrante das demonstrações contábeis, divulgadas ao final de cada exercício
+social.
+II. Proibição da apresentação de item de ativo imoblizado pelo valor reavaliado, que
+correspondente ao seu valor justo à data da reavaliação menos qualquer depreciação e perda
+por redução ao valor recuperável acumuladas subsequentes.
+III. Encorajamento para que a despesa de depreciação dos ativos imobilizados seja calculada
+com base nas taxas utilizadas pela contabilidade tributária.
+Apresenta(m) diferença(s) entre as normas de contabilidade brasileiras e internacionais, o que se
+apresenta em`,alts:['a) I, apenas.','b) II, apenas.','c) I e II, apenas.','d) II e III, apenas.','e) I, II e III.'],c:2,com:`Gabarito: C
+
+I. DVA obrigatória para companhias abertas no Brasil. Diferença em relação às normas internacionais.
+
+II. No Brasil, a reavaliação espontânea de ativo imobilizado é proibida. Diferença em relação às normas internacionais.
+
+III. A depreciação não deve ser calculada com base em taxas fiscais, mas na vida útil econômica. Portanto, está incorreta.
+
+Resposta: C) I e II, apenas.`},
+{b:'FGV - AJ (TJ AP)/TJ AP/Apoio Especializado/Contador/2024',q:`08) Uma indústria S/A construiu uma plataforma de petróleo na costa norte e apresentou os
+seguintes gastos.
+Descrição Valor
+Preparação do local R$ 10 milhões
+Frete para recebimento das peças da instalação R$ 3 milhões
+Instalação e montagem da plataforma R$ 40 milhões
+Transferência das atividades para novo local (incluindo treinamento) R$ 2 milhões
+Testes para verificação do funcionamento da plataforma R$ 1 milhão
+Estimativa de desmontagem e remoção da plataforma R$ 8 milhões
+Considere o valor presente de R$ 4 milhões para a estimativa de desmontagem e remoção da
+plataforma.
+A partir das informações apresentadas, o custo do ativo imobilizado da plataforma será de:`,alts:['a) R$ 55 milhões;','b) R$ 58 milhões;','c) R$ 64 milhões;','d) R$ 66 milhões;','e) R$ 70 milhões.'],c:1,com:`Gabarito: B
+
+Entram no custo:
+Preparação do local: R$ 10 milhões
+Frete: R$ 3 milhões
+Instalação e montagem: R$ 40 milhões
+Testes: R$ 1 milhão
+Valor presente da desmontagem: R$ 4 milhões
+
+Não entra:
+Transferência para novo local/treinamento: R$ 2 milhões
+
+Cálculo:
+10 + 3 + 40 + 1 + 4 = R$ 58 milhões.
+
+Resposta: B) R$ 58 milhões.`},
+{b:'FGV - AJ (TJ AP)/TJ AP/Apoio Especializado/Contador/2024',q:`09) Uma empresa S/A construiu uma nova arena para a realização de shows na região Norte do
+país. Em vista de regulamentações de segurança, a autorização de funcionamento definitiva somente
+é aprovada após eventos testes com capacidade reduzida. A capacidade total da arena é de 3 mil
+pessoas em pé e 500 sentadas.
+O evento teste contou com 200 pessoas sentadas e 800 em pé.
+Considerando-se as informações apresentadas, as eventuais receitas do evento, se relevantes, devem
+ser:`,alts:['a) deduzidas do patrimônio líquido;','b) contabilizadas como receitas diferidas;','c) contabilizadas como receitas do período;','d) contabilizadas como receitas não operacionais;','e) deduzidas do valor total de construção da arena.'],c:4,com:`Gabarito: E
+
+Receitas obtidas em testes do ativo, antes de estar pronto para uso, devem ser deduzidas do custo do ativo, conforme tratamento adotado na questão.
+
+Resposta: E) deduzidas do valor total de construção da arena.`},
+{b:'FGV - Cont (Pref Caraguatatuba)/Pref Caraguatatuba/2024',q:`10) No balanço patrimonial, os ativos não circulantes são classificados como realizável a longo
+prazo, investimentos, imobilizado e intangível.
+Assinale a opção que indica uma diferença específica entre direitos classificados como ativo
+imobilizado e intangível.`,alts:['a) Os imobilizados têm vida útil definida enquanto os intangíveis, vida útil indefinida.','b) Os imobilizados são passíveis de depreciação enquanto os intangíveis, de exaustão.','c) Os imobilizados tem por objeto bens corpóreos enquanto os intangíveis, bens incorpóreos.','d) Os imobilizados são destinados à manutenção da entidade enquanto os intangíveis, não são.','e) Os imobilizados podem ser reduzidos por perda de recuperabilidade, enquanto os intangíveis, não podem.'],c:2,com:`Gabarito: C
+
+A diferença principal é:
+
+Ativo Imobilizado → bens corpóreos.
+
+Ativo Intangível → bens incorpóreos.
+
+Resposta: C) Os imobilizados têm por objeto bens corpóreos enquanto os intangíveis, bens incorpóreos.`},
+{b:'FGV - Cont (Pref Caraguatatuba)/Pref Caraguatatuba/2024',q:`11) Uma sociedade empresária, que trabalha com consultoria contábil, apresenta os seguintes
+ativos:
+• Disponibilidades: R$20.000;
+• Computadores usados na atividade fim: R$35.000;
+• Aluguel antecipado de sala comercial usada para a atividade fim: R$48.000;
+• Veículo mantido para venda: R$70.000;
+• Imóvel destinado a aluguel a terceiros: R$85.000.
+Assinale a opção que indica o ativo imobilizado da sociedade empresária.`,alts:['a) R$35.000.','b) R$83.000.','c) R$105.000.','d) R$155.000.','e) R$190.000.'],c:0,com:`Gabarito: A
+
+Análise dos itens:
+Disponibilidades → Ativo Circulante.
+Computadores usados na atividade fim → Ativo Imobilizado.
+Aluguel antecipado → Ativo Circulante/Despesa Antecipada.
+Veículo mantido para venda → Estoque ou ativo mantido para venda, não imobilizado.
+Imóvel para aluguel a terceiros → Investimento.
+
+Logo:
+Ativo Imobilizado = R$ 35.000.
+
+Resposta: A) R$35.000.`}
+];
+let atual=0,respostas=Array(quiz.length).fill(null),nomeAluno='',whatsAluno='';
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function iniciar(){nomeAluno=document.getElementById('nome').value.trim();whatsAluno=document.getElementById('whats').value.trim();if(!nomeAluno||!whatsAluno){return}atual=0;renderQuestao()}
+function renderQuestao(){const q=quiz[atual];show('quizScreen');document.getElementById('progress').innerText=`Questão ${atual+1} de ${quiz.length}`;document.getElementById('qTitulo').innerText=`Questão ${atual+1}`;document.getElementById('banca').innerText=q.b;document.getElementById('enunciado').innerText=q.q;const alts=document.getElementById('alternativas');alts.innerHTML='';q.alts.forEach((a,i)=>{const b=document.createElement('button');b.className='alt';b.innerText=a;b.onclick=()=>responder(i);alts.appendChild(b)})}
+function responder(i){respostas[atual]=i;document.querySelectorAll('.alt').forEach((el,idx)=>{if(idx===quiz[atual].c)el.classList.add('correta');if(idx===i&&i!==quiz[atual].c)el.classList.add('errada');el.disabled=true});setTimeout(renderComentario,450)}
+function renderComentario(){const q=quiz[atual];show('comentScreen');document.getElementById('progress').innerText=`Resposta comentada ${atual+1} de ${quiz.length}`;document.getElementById('comentario').innerHTML=`<h2>Resposta Comentada</h2>${q.com}`;document.getElementById('btnProx').innerText= atual===quiz.length-1 ? 'Ver escore' : 'Próxima'}
+function proxima(){if(atual<quiz.length-1){atual++;renderQuestao()}else{resultado()}}
+function voltarQuestao(){renderQuestao()}
+function resultado(){show('resultScreen');let acertos=respostas.reduce((s,r,i)=>s+(r===quiz[i].c?1:0),0);document.getElementById('progress').innerText='Resultado final';document.getElementById('score').innerText=`${acertos}/${quiz.length}`;let pct=Math.round(acertos/quiz.length*100);let linhas=`Aluno: ${nomeAluno}<br>WhatsApp: ${whatsAluno}<br><br>Acertos: ${acertos}<br>Erros: ${quiz.length-acertos}<br>Percentual: ${pct}%<br><br>`;quiz.forEach((q,i)=>{linhas+=`Questão ${i+1}: ${respostas[i]===q.c?'✅ Acertou':'❌ Errou'} - Gabarito: ${q.alts[q.c].substring(0,3)}<br>`});document.getElementById('resumo').innerHTML=linhas}
+function reiniciar(){respostas=Array(quiz.length).fill(null);atual=0;document.getElementById('nome').value='';document.getElementById('whats').value='';document.getElementById('progress').innerText='Tela inicial';show('startScreen')}
+</script>
+</body>
+</html>
